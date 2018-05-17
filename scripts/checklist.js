@@ -13,11 +13,11 @@
     }
     CheckList.prototype.addRow = function (coffeeOrder) {
         // Remove any existing rows that match the email address
-    this.removeRow(coffeeOrder.emailAddress);
-    
+        this.removeRow(coffeeOrder.emailAddress);
+
         var rowElement = new Row(coffeeOrder);
         this.$element.append(rowElement.$element);
-    }
+    };
 
     CheckList.prototype.removeRow = function (email) {
         this.$element
@@ -25,6 +25,13 @@
             .closest('[data-coffee-order="checkbox"]')
             .remove();
     };
+    CheckList.prototype.addClickHandler = function(fn){
+        this.$element.on('click','input',function(event){
+            var email = event.target.value;
+            this.removeRow(email);
+            fn(email);
+        }.bind(this));
+    }
 
     function Row(coffeeOrder) {
         var $div = $('<div></div>', {
